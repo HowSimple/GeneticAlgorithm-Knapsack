@@ -1,17 +1,27 @@
 import random
 
+
+
+
 class GeneticAlgorithm:
 
     def __init__(self, size, max, mutationRate):
         self.maxWeight = max
         self.populationSize = size
-        self.mutationRate = mutationRate
+        self.mutationRate = mutationRate;
+
+        self.selection = [
+
+
+
+
 
 
 
     def read(self, filename):
         list = []
         for line in open(filename).read().split():
+
 
 
 
@@ -35,12 +45,13 @@ class GeneticAlgorithm:
 
     def selection(self, fitness ):
 
-        for x in range(self.populationSize, ):
+        for x in range(self.populationSize):
+
 
 
 if __name__ == '__main__':
     print('Starting...')
-    GeneticAlgorithm().run();
-()
+    GeneticAlgorithm().run()
+
 
 
