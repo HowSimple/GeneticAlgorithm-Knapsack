@@ -1,6 +1,6 @@
 
 import numpy as np
-
+from bitstring import BitStream, BitArray
 
 class GeneticAlgorithm:
 
@@ -10,19 +10,43 @@ class GeneticAlgorithm:
         self.numberOfItems = items
         self.mutationRate = mutationRate
         self.populationSize = initialPopulation
-        self.items = []
-        self.chromosome = []
+
+
         self.population =[]
-        self.read(inputFile)
+        self.fitness = []
+        #self.read(inputFile)
+        self.items = self.read(inputFile)
         self.initialPopulation()
-        self.fitness()
+        self.selection()
+
+
+        #self.fitness()
 
     def initialPopulation(self):
         selections_per_individual = 3
-        self.population = [np.random.randint(0, 2,  self.numberOfItems).tolist() for _ in range(self.populationSize)]
-        #self.population = np.random.randint(2, size = self.populationSize)
+        print(self.numberOfItems)
+        for individual in range(self.populationSize):
+            #chronosome = np.random.randint(0, 2, self.numberOfItems)
+            chronosome = BitStream(self.numberOfItems)
+            for selection in range ( int((1/20)* self.numberOfItems) ):
+                i = np.random.randint(0, self.numberOfItems)
+                chronosome[i] = True
+            self.population.append(chronosome)
 
-        print('Initial population: \n{}'.format( self.population ))
+
+        #self.population = np.random.randint(2, size = self.populationSize)
+        self.fitness2()
+
+
+        #print('Initial population: {}'.format( self.population.b))
+
+
+    def run(self, generations):
+        for i in range(generations):
+            self.fitness2()
+            prob
+
+
 
 
     def read(self, filename):
@@ -35,12 +59,12 @@ class GeneticAlgorithm:
     def selection(self):
         self.chronosome
 
-    def fitness(self):
+    def update_fitness(self):
         # total utility of 400 selections
         fitness = np.zeros(self.numberOfItems)
 
-        # for indv in range(self.populationSize):
-        for i in range(self.populationSize):
+        # each individual's weight
+        for i in range(len(self.population)):
             fitness[i] = sum(np.multiply(self.items[0], self.population[i]))
             if (fitness[i]  > self.maxWeight):
                 fitness[i] = 0
@@ -50,9 +74,47 @@ class GeneticAlgorithm:
         return total_fitness
 
 
+    def fitness2(self):
+        fitness_list = [0] * len(self.population)
+       # weight = []
+       # utility = []
+        for individual in range(len(self.population)):
+            fitness = 0
+            weight = 0
+            utility = 0
+            for i in range(self.numberOfItems):
+
+                if (self.population[individual][i] == True ):
+                    utility += float(self.items[i][0])
+                    weight += float(self.items[i][1])
+            if (weight > self.maxWeight):
+                fitness_list[individual] = 0
+
+            else:
+                 fitness_list[individual] += utility
 
 
 
+
+
+                #utility += ( float (self.items[i][0])* self.population[individual] )
+                #weight.append(float(self.items[i][1]) * individual[i])
+            #if (weight > self.maxWeight):
+            #    fitness = 0
+
+
+           # else: fitness[individual] =
+
+        self.fitness = fitness_list
+        #self.print()
+    #    print("total weight: " + weight)
+
+
+
+
+    def print(self):
+        for indv in range(len(self.population)):
+            print("Selections: {} Indv#{} \n fitness:{}".format(self.population[indv].bin, indv, self.fitness[indv]) )
     def mutation(self, population):
         return
 
@@ -65,12 +127,26 @@ class GeneticAlgorithm:
 
         # random crossover point
 
-    def selection(self, fitness):
+    def selection(self):
+        estimates = [0] * len(self.population)
+        nextGeneration = []
+        sumOfSquares = 0
+        for i in range(len(self.population)):
+            estimates[i] = self.fitness[i] * self.fitness[i]
+            sumOfSquares += estimates[i]
+        probabilities = [0] * len(self.population)
+        for p in range(len(self.population)):
+            probabilities[p] = estimates[p] / sumOfSquares
 
-        for x in range(self.populationSize):
-            print()
+
+
+        for i in range(len(self.population)):
+
+        return nextGeneration
+
+
 
 if __name__ == '__main__':
     print('Starting...')
 
-    print(GeneticAlgorithm("Program2Input.txt", 400, 500, 0.0001, 1000, 5000).read("Program2Input.txt"))
+    print(GeneticAlgorithm("Program2Input.txt", 400, 500, 0.0001, 100, 5000))
