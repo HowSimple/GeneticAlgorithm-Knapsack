@@ -1,0 +1,8 @@
+absl-py==1.0.0
+grpcio==1.42.0
+numpy==1.21.2
+pyasn1==0.4.8
+pyasn1-modules==0.2.8
+rsa==4.7.2
+six==1.16.0
+Werkzeug==2.0.2
